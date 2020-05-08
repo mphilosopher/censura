@@ -6,6 +6,7 @@ LIST_URL="https://www1.adm.gov.it/files_siti_inibiti_tabacchi/elenco_siti_inibit
 LIST_FILE="${ROOT_DIR}/tmp/blacklist_admt.txt"
 LIST_OUT="${UNBOUND_CONF_DIR}/db.blacklist_admt.conf"
 LIST_TYPE="admt"
+BLACKHOLE="217.175.53.228"
 
 WGET_CERTS=""
 WGET_OPTS="${WGET_CERTS} --no-check-certificate"

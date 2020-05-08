@@ -7,6 +7,7 @@ LIST_URL="https://www1.adm.gov.it/files_siti_inibiti/elenco_siti_inibiti.txt"
 LIST_FILE="${ROOT_DIR}/tmp/blacklist_aams.txt"
 LIST_OUT="${UNBOUND_CONF_DIR}/db.blacklist_aams.conf"
 LIST_TYPE="aams"
+BLACKHOLE="217.175.53.72"
 
 WGET_CERTS=""
 WGET_OPTS="${WGET_CERTS} --no-check-certificate"
