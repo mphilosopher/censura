@@ -12,7 +12,7 @@ WGET_CERT_KEY="${ROOT_DIR}/cncpo.key"
 WGET_CERT_CA="${ROOT_DIR}/cncpo-ca.pem"
 WGET_CERTS="--certificate=${WGET_CERT_FILE} --private-key=${WGET_CERT_KEY} --ca-certificate=${WGET_CERT_CA}"
 WGET_OPTS="${WGET_CERTS} --no-check-certificate"
-BLACKHOLE="62.211.65.19"
+BLACKHOLE="192.0.2.80" #Replace with the IP address of a stop page
 PARSER_OPTS="-i ${LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE}"
 
 ##############################################################################
