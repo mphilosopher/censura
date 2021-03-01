@@ -8,7 +8,7 @@ forbidden resources.
 
 There are four main species of lists:
 
-- CNCPO (pedo-porn sites)
+- CNCPO[0] (pedo-porn sites)
 - AAMS (illegal gambling sites and illegal tobacco sites)
 - AGCOM (copyright infringement cases)
 - MANUAL (lists provided by Italian LEAs or other Authorities)
@@ -16,3 +16,9 @@ There are four main species of lists:
 Here is a bundle of scripts able to get the lists, parse the data and produce a
 DNS file (currently for Unbound) to hijack some queries toward a customized stop
 page.
+
+[0] CNCPO requires a procedure to register and get a client certificate in order to
+retrieve the list. They provide a .pfx certificate (PKCS#12) with a password.
+If you need to convert to PEM try the following commands:
+openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx
+openssl pkcs12 -in cncpo-base64.pfx -out cncpo.pem  -clcerts -nodes
