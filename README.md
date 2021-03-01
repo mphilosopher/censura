@@ -19,7 +19,8 @@ page.
 
 [0] CNCPO requires a procedure to register and get a client certificate in order to
 retrieve the list. They provide a .pfx certificate (PKCS#12) with a password.
-If you need to convert to PEM try the following commands:
+If you need to convert to PEM try the following commands (thanks to Daniele Carlini
+for the feedback):
 
 openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx
 
