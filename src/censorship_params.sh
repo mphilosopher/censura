@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 ROOT_DIR="/root/censorship"
+TMP_DL_DIR="${ROOT_DIR}/tmp"
 PARSER_BIN="${ROOT_DIR}/censor_parser.py"
 WGET_BIN=$(which wget)
 
