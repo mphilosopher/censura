@@ -88,7 +88,7 @@ def main():
     parser.add_option("-o", "--output", dest="out_file", help="File di output generato")
     parser.add_option("-b", "--blackhole", dest="blackhole", help="Indirizzo stop-page/blackhole")
     parser.add_option("-f", "--oformat", dest="out_format", help="Formato dns in output (unbound, bind)")
-    parser.add_option("-d", "--iformat", dest="in_format", help="Formato dns in output (unbound, bind)")
+    parser.add_option("-d", "--iformat", dest="in_format", help="Formato lista in ingresso (cncp, aams, admt, manuale)")
     parser.add_option("-z", "--zonefile", dest="bind_zonefile", help="Pathname del file di zona bind di blocco")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose")
     parser.add_option("-q", "--quiet", action="store_false", dest="verbose")
