@@ -25,3 +25,7 @@ for the feedback):
 openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx
 
 openssl pkcs12 -in cncpo-base64.pfx -out cncpo.pem  -clcerts -nodes
+
+### Credits
+
+The original tool [kit-censura](https://github.com/rfc1036/kit-censura) was written by Marco d'Itri <md@Linux.IT> [@rfc1036](https://github.com/rfc1036)  
