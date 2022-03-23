@@ -38,7 +38,7 @@ def parse_cncpo_list(infile):
             i = 1
             continue
         if row is not None and len(row)>0 :
-            data = row[1].strip()
+            data = row[1].strip().lower()
             if len(data) > 0:
                 black_list.append(data)
     csvfile.close()
@@ -52,7 +52,7 @@ def parse_aams_list(infile):
     fp = open(infile)
     line = fp.readline()
     while line:
-        data = line.strip()
+        data = line.strip().lower()
         if len(data) > 0:
                 black_list.append(data)
         line = fp.readline()
@@ -67,7 +67,7 @@ def parse_manual_list(infile):
     fp = open(infile)
     line = fp.readline()
     while line:
-        data = line.strip()
+        data = line.strip().lower()
         if len(data) > 0:
             black_list.append(data)
         line = fp.readline()
