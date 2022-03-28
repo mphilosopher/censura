@@ -2,6 +2,8 @@
 
 import optparse
 import csv
+from typing import List
+import validators
 
 options = None
 default_blackhole = '127.0.0.1'
@@ -17,7 +19,6 @@ def write_unbound_list(outfile, blacklist, blackhole):
         fp.write("local-data: \"{} A {}\"\n".format(c, blackhole))
     fp.close()
     return
-
 
 def write_bind_data(outfile, blacklist, zonefile):
     fp = open(outfile, 'w')
@@ -76,10 +77,41 @@ def parse_manual_list(infile):
     bl2 = list(set(black_list))
     return bl2
 
+def load_whitelist(infile):
+    wl = list()
+    fp = open(infile)
+    line = fp.readline()
+    while line:
+        data = line.strip().lower()
+        if len(data) > 0:
+            wl.append(data)
+        line = fp.readline()
+    fp.close()
+    # Eliminazione dei duplicati
+    wl2 = list(set(wl))
+    return wl2
+
+def filter_valid_domain(blacklist):
+    bl = list()
+    for l in blacklist:
+        if validators.domain(l) == True:
+            bl.append(l)
+    return bl
+
+def filter_whitelist(blacklist, whitelist):
+    if blacklist is None or whitelist is None:
+        return list()
+    if (len(blacklist) == 0) or (len(whitelist) == 0) :
+        return blacklist
+    bls = set(blacklist)
+    wls = set(whitelist)
+    cls = list(bls - wls)
+    return cls
 
 def main():
     global options
     dns_bl = None
+    wl = list()
 
     # Elaborazione argomenti della linea di comando
     usage = "usage: %prog [options] arg"
@@ -90,6 +122,7 @@ def main():
     parser.add_option("-f", "--oformat", dest="out_format", help="Formato dns in output (unbound, bind)")
     parser.add_option("-d", "--iformat", dest="in_format", help="Formato lista in ingresso (cncp, aams, admt, manuale)")
     parser.add_option("-z", "--zonefile", dest="bind_zonefile", help="Pathname del file di zona bind di blocco")
+    parser.add_option("-w", "--whitelist", dest="wl_file", help="File di elenco degli url da mettere in whitelist")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose")
     parser.add_option("-q", "--quiet", action="store_false", dest="verbose")
 
@@ -108,9 +141,11 @@ def main():
         print("Formato             : {}".format(options.out_format))
     #
     if options.blackhole is None:
-            options.blackhole = default_blackhole
+        options.blackhole = default_blackhole
     if options.bind_zonefile is None:
-            options.bind_zonefile = default_bind_block_zonefile
+        options.bind_zonefile = default_bind_block_zonefile
+    if options.wl_file is not None:
+        wl = load_whitelist(options.wl_file)
     #
     if options.in_format == 'cncpo':
         dns_bl = parse_cncpo_list(options.in_file)
@@ -123,6 +158,11 @@ def main():
     else:
         print("Formato di input non risconosciuto")
         return None
+    # Validazione elementi caricati
+    dns_bl = filter_valid_domain(dns_bl)
+    dns_bl = filter_whitelist(dns_bl, wl)
+
+    # Generazione file di output
     if options.out_format == 'unbound':
         write_unbound_list(options.out_file, dns_bl, options.blackhole)
     elif options.out_format == 'bind':
