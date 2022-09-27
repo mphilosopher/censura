@@ -93,9 +93,16 @@ def load_whitelist(infile):
 
 def filter_valid_domain(blacklist):
     bl = list()
+    bad_chars = [" "]
     for l in blacklist:
         if validators.domain(l) == True:
             bl.append(l)
+        else:
+            for c in bad_chars:
+                l = l.replace(c, '')
+            
+            if validators.domain(l) == True:
+                bl.append(l)
     return bl
 
 def filter_whitelist(blacklist, whitelist):
