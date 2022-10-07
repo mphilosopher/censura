@@ -7,4 +7,4 @@ ${ROOT_DIR}/update_aams.sh
 ${ROOT_DIR}/update_admt.sh
 ${ROOT_DIR}/update_manual.sh
 
-/usr/local/etc/rc.d/unbound reload
+/usr/local/etc/rc.d/unbound reload # or `rndc reload` according to your mileage
