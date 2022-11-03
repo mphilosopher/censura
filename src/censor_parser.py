@@ -9,7 +9,7 @@ options = None
 default_blackhole = '127.0.0.1'
 default_bind_block_zonefile = '/etc/bind/zones/dns_block_zone.zone'
 out_format_list = ['unbound', 'bind']
-in_format_list = ['cncpo', 'aams', 'admt', 'manuale']
+in_format_list = ['cncpo', 'aams', 'admt', 'agcom', 'manuale']
 
 def write_unbound_list(outfile, blacklist, blackhole):
     fp = open(outfile, 'w')
@@ -49,6 +49,22 @@ def parse_cncpo_list(infile):
 
 
 def parse_aams_list(infile):
+    black_list = list()
+    fp = open(infile)
+    line = fp.readline()
+    while line:
+        data = line.strip().lower()
+        if len(data) > 0:
+                black_list.append(data)
+        line = fp.readline()
+    fp.close()
+    # Eliminazione dei duplicati
+    bl2 = list(set(black_list))
+    return bl2
+
+
+
+def parse_agcom_list(infile):
     black_list = list()
     fp = open(infile)
     line = fp.readline()
@@ -153,6 +169,8 @@ def main():
         dns_bl = parse_aams_list(options.in_file)
     elif options.in_format == 'admt':
         dns_bl = parse_aams_list(options.in_file)
+    elif options.in_format == 'agcom':
+        dns_bl = parse_agcom_list(options.in_file)
     elif options.in_format == 'manuale':
         dns_bl = parse_manual_list(options.in_file)
     else:
