@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import requests, optparse
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-
+import requests, optparse, urllib3
+from bs4 import BeautifulSoup
 
 def main():
     global options
@@ -21,16 +17,19 @@ def main():
     if (options.out_file is None):
         parser.error("Numero di argomenti non corretto")
 
-    service = Service(executable_path=ChromeDriverManager().install())
-    op = webdriver.ChromeOptions()
-    op.add_argument('--headless')
     url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
-    driver = webdriver.Chrome(service=service, options=op)
-    driver.get(url)
-    lastDetermina = driver.find_element(By.PARTIAL_LINK_TEXT, "Determina").get_attribute('href')
-    driver.get(lastDetermina)
-    allegatoB = driver.find_element(By.LINK_TEXT, "Allegato B").get_attribute('href')
-    driver.quit()
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, "html.parser")
+    for determina in soup.find_all("a"):
+        if not "Determina" in determina.text:continue
+        lastDetermina = "https://www.agcom.it"+determina["href"]
+        break
+    page = requests.get(lastDetermina)
+    soup = BeautifulSoup(page.content, "html.parser")
+    for allegato in soup.find_all("a"):
+        if not "Allegato B" in allegato.text:continue
+        allegatoB = allegato["href"]
+        break
 
     response = requests.get(allegatoB)
     with open(options.out_file,'wb') as f:
