@@ -22,9 +22,10 @@ def main():
         parser.error("Numero di argomenti non corretto")
 
     service = Service(executable_path=ChromeDriverManager().install())
-
+    op = webdriver.ChromeOptions()
+    op.add_argument('--headless')
     url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=service, options=op)
     driver.get(url)
     lastDetermina = driver.find_element(By.PARTIAL_LINK_TEXT, "Determina").get_attribute('href')
     driver.get(lastDetermina)
