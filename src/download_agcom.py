@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import requests, optparse, urllib3
+import requests, optparse
 from bs4 import BeautifulSoup
 
 def main():
