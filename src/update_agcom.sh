@@ -16,7 +16,7 @@ fi
 PARSER_OPTS="-i ${LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE}"
 
 ## downloading ###############################################################
-$(python3 download_agcom.py -o ${LIST_FILE})
+$(python3 $(dirname "${0}")/download_agcom.py -o ${LIST_FILE})
 
 ## parsing ###################################################################
 ${PARSER_BIN} ${PARSER_OPTS}
