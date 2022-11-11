@@ -21,7 +21,7 @@ def main():
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
     for determina in soup.find_all("a"):
-        if not "Determina" in determina.text:continue
+        if not "Determina" or not "Delibera" in determina.text:continue
         lastDetermina = "https://www.agcom.it"+determina["href"]
         break
     page = requests.get(lastDetermina)
