@@ -8,7 +8,7 @@ import validators
 options = None
 default_blackhole = '127.0.0.1'
 default_bind_block_zonefile = '/etc/bind/zones/dns_block_zone.zone'
-out_format_list = ['unbound', 'bind']
+out_format_list = ['unbound', 'bind','powerdns']
 in_format_list = ['cncpo', 'aams', 'admt', 'agcom', 'manuale']
 
 def write_unbound_list(outfile, blacklist, blackhole):
@@ -17,6 +17,14 @@ def write_unbound_list(outfile, blacklist, blackhole):
     for c in blacklist:
         fp.write("local-zone: \"{}\" redirect \n".format(c))
         fp.write("local-data: \"{} A {}\"\n".format(c, blackhole))
+    fp.close()
+    return
+
+def write_powerdns_list(outfile, blacklist, blackhole):
+    fp = open(outfile, 'w')
+    fp.write("$TTL 5M\n@       IN      SOA     localhost. noc.example.com. (\n                                1               ; serial number\n                                4W              ; refresh\n                                4W              ; retry\n                                4W              ; expire\n                                5M )            ; negative caching TTL\n\n                NS      localhost.\n\n")
+    for c in blacklist:
+        fp.write("{} A {}\n".format(c, blackhole))
     fp.close()
     return
 
@@ -135,7 +143,7 @@ def main():
     parser.add_option("-i", "--input", dest="in_file", help="File di elenco degli url in input")
     parser.add_option("-o", "--output", dest="out_file", help="File di output generato")
     parser.add_option("-b", "--blackhole", dest="blackhole", help="Indirizzo stop-page/blackhole")
-    parser.add_option("-f", "--oformat", dest="out_format", help="Formato dns in output (unbound, bind)")
+    parser.add_option("-f", "--oformat", dest="out_format", help="Formato dns in output (unbound, bind, powerdns)")
     parser.add_option("-d", "--iformat", dest="in_format", help="Formato lista in ingresso (cncp, aams, admt, manuale)")
     parser.add_option("-z", "--zonefile", dest="bind_zonefile", help="Pathname del file di zona bind di blocco")
     parser.add_option("-w", "--whitelist", dest="wl_file", help="File di elenco degli url da mettere in whitelist")
@@ -185,6 +193,8 @@ def main():
         write_unbound_list(options.out_file, dns_bl, options.blackhole)
     elif options.out_format == 'bind':
         write_bind_data(options.out_file, dns_bl, options.bind_zonefile)
+    elif options.out_format == 'powerdns':
+        write_powerdns_list(options.out_file, dns_bl, options.blackhole)
     else:
         print("Formato di output non risconosciuto")
         return None
