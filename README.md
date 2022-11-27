@@ -14,7 +14,7 @@ There are four main species of lists:
 - MANUAL (lists provided by Italian LEAs or other Authorities)
 
 Here is a bundle of scripts able to get the lists, parse the data and produce a
-DNS file (currently for Bind and Unbound) to hijack some queries toward a customized stop
+DNS file (currently for Bind, Unbound, and PowerDNS) to hijack some queries toward a customized stop
 page.
 
 [0] CNCPO requires a procedure to register and get a client certificate in order to
