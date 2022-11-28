@@ -1,4 +1,5 @@
 #!/bin/sh -e
+# Tune the following parameters according to your environment
 
 ROOT_DIR="/root/censorship/src"
 TMP_DL_DIR="${ROOT_DIR}/tmp"
