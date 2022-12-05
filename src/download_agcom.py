@@ -7,7 +7,7 @@ def main():
     global options
 # Definisco le due variabili sotto e le inizializzo con valori a caso
 # Questo perchè se in tutta la pagina non trovo un provvedimento
-# allora determin,lastDetermina e allegatoB restano non inizializzate e mandano
+# allora determina,lastDetermina e allegatoB restano non inizializzate e mandano
 # in errore lo script
 
     global determina
