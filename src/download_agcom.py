@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 def main():
     global options
-# Definisco le due variabili sotto e le inizializzo con valori a caso
+# Definisco le tre variabili sotto e le inizializzo con valori a caso
 # Questo perchè se in tutta la pagina non trovo un provvedimento
 # allora determina,lastDetermina e allegatoB restano non inizializzate e mandano
 # in errore lo script
