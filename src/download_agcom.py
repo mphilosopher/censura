@@ -35,9 +35,8 @@ def main():
     soup = BeautifulSoup(page.content, "html.parser")
     for div in soup.findAll('div', attrs={'class':'risultato'}):
         for p in div.findAll('p'):
-            if "Provvedimento" in p.text:
-                determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
-                break
+            if not "Provvedimento" or not "Ordine" in p.text:continue
+            determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
             lastDetermina = "https://www.agcom.it"+determina["href"]
 
     page = requests.get(lastDetermina)
