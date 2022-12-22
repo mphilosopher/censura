@@ -5,6 +5,19 @@ from bs4 import BeautifulSoup
 
 def main():
     global options
+# Definisco le tre variabili sotto e le inizializzo con valori a caso
+# Questo perchè se in tutta la pagina non trovo un provvedimento
+# allora determina,lastDetermina e allegatoB restano non inizializzate e mandano
+# in errore lo script
+
+    global determina
+    global lastDetermina
+    global allegatoB
+
+    determina = ""
+    lastDetermina = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
+    allegatoB = "https://www.example.com"
+
 
     # Elaborazione argomenti della linea di comando
     usage = "usage: %prog [options] arg"
@@ -22,10 +35,10 @@ def main():
     soup = BeautifulSoup(page.content, "html.parser")
     for div in soup.findAll('div', attrs={'class':'risultato'}):
         for p in div.findAll('p'):
-            if "Provvedimento" in p.text:
-                determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
-                lastDetermina = "https://www.agcom.it"+determina["href"]
-                break
+            if not "Provvedimento" or not "Ordine" in p.text:continue
+            determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
+            lastDetermina = "https://www.agcom.it"+determina["href"]
+
     page = requests.get(lastDetermina)
     soup = BeautifulSoup(page.content, "html.parser")
     for allegato in soup.find_all("a"):
@@ -33,9 +46,13 @@ def main():
         allegatoB = allegato["href"]
         break
 
-    response = requests.get(allegatoB)
-    with open(options.out_file,'wb') as f:
-        f.write(response.content)
+# Controllo se ho trovato un Allegato B vedendo se la variabile inizializzata è stata modificata
+# Solo se allegatoB è stato trovato, allora lo elaboro
+
+    if not "www.example.com" in allegatoB:
+        response = requests.get(allegatoB)
+        with open(options.out_file,'wb') as f:
+            f.write(response.content)
 
 if __name__ == '__main__':
     main()
