@@ -33,12 +33,19 @@ def main():
     url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
+    lastDetermina = None
     for div in soup.findAll('div', attrs={'class':'risultato'}):
+        if lastDetermina: break
         for p in div.findAll('p'):
-            if not "Provvedimento" or not "Ordine" in p.text:continue
-            determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
-            lastDetermina = "https://www.agcom.it"+determina["href"]
-
+            if ((p.text.lower().find("provvedimento")==-1) and (p.text.lower().find("ordine")==-1)):continue
+            #determina = div.find(lambda tag:(tag.name=="a" and (tag.text.lower().find("determina")!=-1) or (tag.text.lower().find("delibera")!=-1)))
+            determina = div.find(lambda tag:(tag.name=="a" and tag.text.lower().find("determina")!=-1))
+            if determina:
+                lastDetermina = "https://www.agcom.it"+determina["href"]
+                break
+    if lastDetermina is None:
+        return(False)
+    
     page = requests.get(lastDetermina)
     soup = BeautifulSoup(page.content, "html.parser")
     for allegato in soup.find_all("a"):
