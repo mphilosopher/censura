@@ -1,5 +1,11 @@
-decorator==5.1.1
-six==1.16.0
-validators==0.18.2
 beautifulsoup4==4.11.1
+certifi==2023.5.7
+chardet==4.0.0
+decorator==5.1.1
+idna==2.10
+imaplib2==3.6
 requests==2.25.1
+six==1.16.0
+soupsieve==2.4.1
+urllib3==1.26.16
+validators==0.18.2
