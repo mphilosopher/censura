@@ -2,13 +2,16 @@
 
 . $(dirname "${0}")/censorship_params.sh
 
-LIST_FILE="${ROOT_DIR}/blacklist_manual.txt"
 LIST_OUT="${UNBOUND_CONF_DIR}/db.blacklist_manual.conf"
 LIST_TYPE="manuale"
 
-BLACKHOLE="127.0.0.1" #Replace with the chosen IP address
 PARSER_BIN="${ROOT_DIR}/censor_parser.py"
-PARSER_OPTS="-i ${LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE}"
+PARSER_OPTS="-i ${MANUAL_LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE_MANUAL}"
 
-##############################################################################
-${PARSER_BIN} ${PARSER_OPTS}
+if [ -f "${MANUAL_LIST_FILE}" ]
+then
+   ${PARSER_BIN} ${PARSER_OPTS}
+else
+    echo "No manual list file found, skipping."
+fi
+
