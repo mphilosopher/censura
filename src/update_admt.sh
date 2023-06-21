@@ -6,7 +6,6 @@ LIST_URL="https://www1.adm.gov.it/files_siti_inibiti_tabacchi/elenco_siti_inibit
 LIST_FILE="${TMP_DL_DIR}/blacklist_admt.txt"
 LIST_OUT="${UNBOUND_CONF_DIR}/db.blacklist_admt.conf"
 LIST_TYPE="admt"
-BLACKHOLE="217.175.53.228"
 
 WGET_CERTS=""
 WGET_OPTS="${WGET_CERTS} --no-check-certificate"
@@ -17,7 +16,7 @@ then
    mkdir "${TMP_DL_DIR}"
 fi
 
-PARSER_OPTS="-i ${LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE}"
+PARSER_OPTS="-i ${LIST_FILE} -o ${LIST_OUT} -f ${OUTPUT_FORMAT} -d ${LIST_TYPE} -b ${BLACKHOLE_ADMT}"
 
 ##############################################################################
 # be verbose when stdout is a tty

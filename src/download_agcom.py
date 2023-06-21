@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
 
-import requests, optparse
+import requests, optparse, sys
 from bs4 import BeautifulSoup
 
 def main():
     global options
-# Definisco le tre variabili sotto e le inizializzo con valori a caso
-# Questo perchè se in tutta la pagina non trovo un provvedimento
-# allora determina,lastDetermina e allegatoB restano non inizializzate e mandano
-# in errore lo script
+    # Definisco le due variabili sotto e le inizializzo nulle
+    # Questo perchè se in tutta la pagina non trovo un provvedimento
+    # allora lastDetermina e allegatoB restano non inizializzate e mandano
+    # in errore lo script
 
-    global determina
-    global lastDetermina
-    global allegatoB
-
-    determina = ""
-    lastDetermina = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
-    allegatoB = "https://www.example.com"
+    lastDetermina = None
+    allegatoB = None
 
 
     # Elaborazione argomenti della linea di comando
@@ -30,29 +25,39 @@ def main():
     if (options.out_file is None):
         parser.error("Numero di argomenti non corretto")
 
+    #Scarico solo l'ultima Determina dal sito AGCOM
+
     url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
     for div in soup.findAll('div', attrs={'class':'risultato'}):
         for p in div.findAll('p'):
-            if not "Provvedimento" or not "Ordine" in p.text:continue
-            determina = div.find(lambda tag:tag.name=="a" and ("Determina" or "Delibera" in tag.text))
-            lastDetermina = "https://www.agcom.it"+determina["href"]
+            if not ("Provvedimento" in p.text or "Ordine" in p.text):continue
+            tag = div.find('a')
+            if "Determina" in tag.text:
+                lastDetermina = "https://www.agcom.it"+tag["href"]
+                break
+        if lastDetermina is not None:break
 
-    page = requests.get(lastDetermina)
-    soup = BeautifulSoup(page.content, "html.parser")
-    for allegato in soup.find_all("a"):
-        if not "Allegato B" in allegato.text:continue
-        allegatoB = allegato["href"]
-        break
+    if lastDetermina is not None:
+        page = requests.get(lastDetermina)
+        soup = BeautifulSoup(page.content, "html.parser")
+        for allegato in soup.find_all("a"):
+            if not "Allegato B" in allegato.text:continue
+            allegatoB = allegato["href"]
+            break
+    # Controllo se ho trovato un Allegato B vedendo se la variabile inizializzata è stata modificata
+    # Solo se allegatoB è stato trovato, allora lo scrivo nel file di output specificato
 
-# Controllo se ho trovato un Allegato B vedendo se la variabile inizializzata è stata modificata
-# Solo se allegatoB è stato trovato, allora lo elaboro
-
-    if not "www.example.com" in allegatoB:
+    if allegatoB is not None:
         response = requests.get(allegatoB)
         with open(options.out_file,'wb') as f:
             f.write(response.content)
+        sys.exit(0)
+    else:
+        sys.exit(1)
+    
+    
 
 if __name__ == '__main__':
     main()
