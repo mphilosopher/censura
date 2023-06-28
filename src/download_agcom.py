@@ -10,12 +10,12 @@ def main():
 # allora determina,lastDetermina e allegatoB restano non inizializzate e mandano
 # in errore lo script
 
-    global determina
-    global lastDetermina
+    global delibera
+    global lastDelibera
     global allegatoB
 
-    determina = ""
-    lastDetermina = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
+    delibera = ""
+    lastDelibera = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore"
     allegatoB = "https://www.example.com"
 
 
@@ -31,21 +31,21 @@ def main():
         parser.error("Numero di argomenti non corretto")
 
     curpage=1
-    lastDetermina = None
-    while((curpage<10) and (lastDetermina is None)):        
-        url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore?p_p_id=listapersconform_WAR_agcomlistsportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_listapersconform_WAR_agcomlistsportlet_numpagris=50&_listapersconform_WAR_agcomlistsportlet_curpagris={}".format(curpage)
+    lastDelibera = None
+    while((curpage<10) and (lastDelibera is None)):        
+        url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore?p_p_id=listapersconform_WAR_agcomlistsportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_listapersconform_WAR_agcomlistsportlet_numpagris=10&_listapersconform_WAR_agcomlistsportlet_curpagris={}".format(curpage)
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         for div in soup.findAll('div', attrs={'class':'risultato'}):
-            if lastDetermina: break
+            if lastDelibera: break
             for p in div.findAll('p'):
                 if ((p.text.lower().find("provvedimento")==-1) and (p.text.lower().find("ordine")==-1)):continue
                     #determina = div.find(lambda tag:(tag.name=="a" and (tag.text.lower().find("determina")!=-1) or (tag.text.lower().find("delibera")!=-1)))
-                determina = div.find(lambda tag:(tag.name=="a" and tag.text.lower().find("determina")!=-1))
-                if determina:
-                    lastDetermina = "https://www.agcom.it"+determina["href"]
+                delibera = div.find(lambda tag:(tag.name=="a" and tag.text.lower().find("delibera")!=-1))
+                if delibera:
+                    lastDelibera = "https://www.agcom.it"+delibera["href"]
                     #### Check Allegato ######
-                    page = requests.get(lastDetermina)
+                    page = requests.get(lastDelibera)
                     soup = BeautifulSoup(page.content, "html.parser")
                     # Controllo se ho trovato un Allegato B vedendo se la variabile inizializzata è stata modificata
                     # Solo se allegatoB è stato trovato, allora lo elaboro
@@ -58,10 +58,10 @@ def main():
                         with open(options.out_file,'wb') as f:
                             f.write(response.content)
                     else:
-                        lastDetermina = None
+                        lastDelibera = None
                     break
         curpage = curpage + 1
-    if lastDetermina is None:
+    if lastDelibera is None:
         return(False)
 
 if __name__ == '__main__':
