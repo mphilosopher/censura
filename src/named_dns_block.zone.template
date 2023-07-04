@@ -1,6 +1,6 @@
 $TTL 5M
 
-@       IN SOA localhost. noc.as59715.net. (
+@       IN SOA localhost. noc.localhost. (
                1  4W  4W  4W  5M )
 
 @       IN      NS   localhost.
