@@ -24,7 +24,7 @@ if [ ! -t 0 ]; then
   WGET_OPTS="$WGET_OPTS -q"
 fi
 
-LIST_URL=$(${WGET_BIN} ${WGET_OPTS} ${PAGE_URL} -q -O - | ${GNU_GREP_BIN} -Po "(?<=href=\")[^^\"]*/elenco_siti_inibiti.txt" )
+LIST_URL=$(${WGET_BIN} ${WGET_OPTS} ${PAGE_URL} -q -O - | ${GNU_GREP_BIN} -Po "(?<=href=\")[^^\"]*/elenco_siti_inibiti_giochi.txt" )
 if [ -z ${LIST_URL} ]
 then
   exit 1
