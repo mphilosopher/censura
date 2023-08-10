@@ -1,4 +1,4 @@
-Blacklists for Italian Network Operators
+### Blacklists for Italian Network Operators
 
 Italian Network Operators MUST implement at least five different
 blacklists (DNS sinkhole) in order to comply with Italian laws.
@@ -26,6 +26,11 @@ openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx
 
 openssl pkcs12 -in cncpo-base64.pfx -out cncpo.pem  -clcerts -nodes
 
+### Disclaimer
+
+This software is provided ​“AS IS”. Developers make no other warranties, express or implied.
+
 ### Credits
 
 The original tool [kit-censura](https://github.com/rfc1036/kit-censura) was written by Marco d'Itri <md@Linux.IT> [@rfc1036](https://github.com/rfc1036)  
+Look also at this fork by [@robynhub](https://github.com/robynhub): [kit-censura](https://github.com/robynhub/kit-censura)
