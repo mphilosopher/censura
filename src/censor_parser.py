@@ -9,7 +9,7 @@ options = None
 default_blackhole = '127.0.0.1'
 default_bind_block_zonefile = '/etc/bind/zones/dns_block_zone.zone'
 out_format_list = ['unbound', 'bind','powerdns']
-in_format_list = ['cncpo', 'aams', 'admt', 'agcom', 'manuale']
+in_format_list = ['cncpo', 'aams', 'admt', 'agcom', 'consob', 'manuale']
 
 def write_unbound_list(outfile, blacklist, blackhole):
     fp = open(outfile, 'w')
