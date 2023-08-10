@@ -87,6 +87,21 @@ def parse_agcom_list(infile):
     return bl2
 
 
+def parse_consob_list(infile):
+    black_list = list()
+    fp = open(infile)
+    line = fp.readline()
+    while line:
+        data = line.strip().lower()
+        if len(data) > 0:
+                black_list.append(data)
+        line = fp.readline()
+    fp.close()
+    # Eliminazione dei duplicati
+    bl2 = list(set(black_list))
+    return bl2
+
+
 def parse_manual_list(infile):
     black_list = list()
     fp = open(infile)
@@ -179,6 +194,8 @@ def main():
         dns_bl = parse_aams_list(options.in_file)
     elif options.in_format == 'agcom':
         dns_bl = parse_agcom_list(options.in_file)
+    elif options.in_format == 'consob':
+        dns_bl = parse_consob_list(options.in_file)
     elif options.in_format == 'manuale':
         dns_bl = parse_manual_list(options.in_file)
     else:
