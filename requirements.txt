@@ -9,3 +9,5 @@ six==1.16.0
 soupsieve==2.4.1
 urllib3==1.26.16
 validators==0.18.2
+urlextract==1.8.0
+tldextract==3.4.4
