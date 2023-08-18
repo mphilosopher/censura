@@ -1,12 +1,12 @@
 ### Blacklists for Italian Network Operators
 
-Italian Network Operators MUST implement at least five different
+Italian Network Operators MUST implement at least six different
 blacklists (DNS sinkhole) in order to comply with Italian laws.
 
 It means that customers using their Italian ISP's resolvers must not reach those
 forbidden resources.
 
-There are four main species of lists:
+There are five main species of lists:
 
 - CNCPO[0] (pedo-porn sites)
 - AAMS (illegal gambling sites and illegal tobacco sites)
