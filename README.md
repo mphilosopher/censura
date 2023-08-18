@@ -1,7 +1,7 @@
 ### Blacklists for Italian Network Operators
 
 Italian Network Operators MUST implement at least six different
-blacklists (DNS sinkhole) in order to comply with Italian laws.
+blacklists (DNS sinkhole) in order to comply with the Italian laws.
 
 It means that customers using their Italian ISP's resolvers must not reach those
 forbidden resources.
