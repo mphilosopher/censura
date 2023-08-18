@@ -11,6 +11,7 @@ There are four main species of lists:
 - CNCPO[0] (pedo-porn sites)
 - AAMS (illegal gambling sites and illegal tobacco sites)
 - AGCOM (copyright infringement cases)
+- CONSOB (unlicensed financial services)
 - MANUAL (lists provided by Italian LEAs or other Authorities)
 
 Here is a bundle of scripts able to get the lists, parse the data and produce a
