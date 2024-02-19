@@ -2,6 +2,8 @@
 
 import requests, optparse
 from bs4 import BeautifulSoup
+from urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 def main():
     global options
@@ -33,8 +35,8 @@ def main():
     curpage=1
     lastDelibera = None
     while((curpage<10) and (lastDelibera is None)):        
-        url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore?p_p_id=listapersconform_WAR_agcomlistsportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_listapersconform_WAR_agcomlistsportlet_numpagris=10&_listapersconform_WAR_agcomlistsportlet_curpagris={}".format(curpage)
-        page = requests.get(url)
+        url = "https://www.agcom.it/provvedimenti-a-tutela-del-diritto-d-autore?p_p_id=listapersconform_WAR_agcomlistsportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_listapersconform_WAR_agcomlistsportlet_numpagris=50&_listapersconform_WAR_agcomlistsportlet_curpagris={}".format(curpage)
+        page = requests.get(url, verify=False)
         soup = BeautifulSoup(page.content, "html.parser")
         for div in soup.findAll('div', attrs={'class':'risultato'}):
             if lastDelibera: break
@@ -45,7 +47,7 @@ def main():
                 if delibera:
                     lastDelibera = "https://www.agcom.it"+delibera["href"]
                     #### Check Allegato ######
-                    page = requests.get(lastDelibera)
+                    page = requests.get(lastDelibera, verify=False)
                     soup = BeautifulSoup(page.content, "html.parser")
                     # Controllo se ho trovato un Allegato B vedendo se la variabile inizializzata è stata modificata
                     # Solo se allegatoB è stato trovato, allora lo elaboro
@@ -54,7 +56,7 @@ def main():
                         allegatoB = allegato["href"]
                         break
                     if not "www.example.com" in allegatoB:
-                        response = requests.get(allegatoB)
+                        response = requests.get(allegatoB, verify=False)
                         with open(options.out_file,'wb') as f:
                             f.write(response.content)
                     else:
