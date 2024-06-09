@@ -8,9 +8,9 @@ There are five main species of lists:
 
 - CNCPO [^0] (pedo-porn sites)
 - AAMS (illegal gambling sites and illegal tobacco sites)
-- AGCOM (copyright infringement cases)
+- AGCOM [^1] (copyright infringement cases)
 - CONSOB (unlicensed financial services)
-- IVASS [^1] (illegal insurance sites)
+- IVASS [^2] (illegal insurance sites)
 - MANUAL (lists provided by Italian LEAs or other Authorities)
 
 Here is a bundle of scripts able to get the lists, parse the data and produce a
@@ -20,7 +20,8 @@ page.
 [^0]: CNCPO has changed the way it distributes the list: it now only works through PEC.
 To get software that also automates operations with CNCPO, take a look at this repository:
 [kit-censura](https://github.com/robynhub/kit-censura)
-[^1]: IVASS list has not been implemented by this software yet
+[^1]: Piracy Shield is still managed by AGCOM, but it has its own platform, which we manage here through the [Compliance Guard software](https://github.com/OpenAccess-Italia/ComplianceGuard) 
+[^2]: IVASS list has not been implemented by this software yet
 
 ~~CNCPO requires a procedure to register and get a client certificate in order to~~
 ~~retrieve the list. They provide a .pfx certificate (PKCS#12) with a password.~~
