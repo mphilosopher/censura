@@ -16,12 +16,16 @@ Here is a bundle of scripts able to get the lists, parse the data and produce a
 DNS file (currently for Bind, Unbound, and PowerDNS) to hijack some queries toward a customized stop
 page.
 
-[^0]: CNCPO requires a procedure to register and get a client certificate in order to
-retrieve the list. They provide a .pfx certificate (PKCS#12) with a password.
-If you need to convert to PEM try the following commands (thanks to Daniele Carlini [@karlainz](https://github.com/karlainz)
-for the feedback):\
-`openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx`  
-`openssl pkcs12 -in cncpo-base64.pfx -out cncpo.pem  -clcerts -nodes`
+[^0]: CNCPO has changed the way it distributes the list: it now only works through PEC.
+To get software that also automates operations with CNCPO, take a look at this repository:
+[kit-censura](https://github.com/robynhub/kit-censura)
+
+~~CNCPO requires a procedure to register and get a client certificate in order to~~
+~~retrieve the list. They provide a .pfx certificate (PKCS#12) with a password.~~
+~~If you need to convert to PEM try the following commands (thanks to Daniele Carlini [@karlainz](https://github.com/karlainz)~~
+~~for the feedback):~~\
+~~`openssl enc -base64 -d -in cncpo.pfx -out cncpo-base64.pfx`~~
+~~`openssl pkcs12 -in cncpo-base64.pfx -out cncpo.pem  -clcerts -nodes`~~
   
   
 # Disclaimer
